@@ -1,0 +1,18 @@
+syntax = "proto3";
+package com.kuppuch.grpc;
+
+message CoordinateRequest {
+  double latitude = 1;
+  double longitude = 2;
+}
+
+message CoordinateResponse {
+  double summ = 1;
+}
+
+message EmptyMessage {}
+
+service CoordinateService {
+  rpc coordinate(CoordinateRequest) returns (CoordinateResponse) {};
+  rpc randNumbers(EmptyMessage) returns (stream CoordinateResponse) {};
+}
