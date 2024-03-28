@@ -11,10 +11,18 @@ public class Client {
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
+            System.out.println("Жми цифры, чтобы увидеть результат");
+            System.out.println("1 - последовательный ввод двух чисел. Возвращает сумму. Унарный запрос-ответ");
+            System.out.println("2 - пустой запрос. В ответ возвращает поток данных с сервера. Server-side streaming");
+            System.out.println("0 - выход");
             String choice = scanner.next();
             switch (choice) {
                 case "1":
-                    singleRequest();
+                    System.out.println("Число 1:");
+                    double first = scanner.nextDouble();
+                    System.out.println("Число 2:");
+                    double second = scanner.nextDouble();
+                    singleRequest(first, second);
                     break;
                 case "2":
                     streamRequest();
@@ -27,14 +35,14 @@ public class Client {
         }
     }
 
-    public static void singleRequest() {
+    public static void singleRequest(double first, double second) {
         ManagedChannel channel = ManagedChannelBuilder.forTarget("localhost:8080").usePlaintext().build();
 
         CoordinateServiceGrpc.CoordinateServiceBlockingStub stub = CoordinateServiceGrpc.newBlockingStub(channel);
 
         GreetingService.CoordinateRequest request = GreetingService.CoordinateRequest.newBuilder().
-                setLatitude(80.0).
-                setLongitude(20.0).
+                setLatitude(first).
+                setLongitude(second).
                 build();
 
         GreetingService.CoordinateResponse response = stub.coordinate(request);
